@@ -127,6 +127,7 @@
 - `chmod g-w file ` to remove write permission from group
 - `chmod o+x file ` to make executable for others
 - `chmod +x file ` to make executable for all users
+- `chmod u+x file ` to make executable for current user
 - `chmod g=r-x file ` to give specific access
 - you can also use binary numbers for permissions
 - 4: read, 2: write, 1: execute, 0: no permission
