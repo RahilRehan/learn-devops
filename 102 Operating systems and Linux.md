@@ -8,7 +8,7 @@
 - Manage I/O devices
 - Security and permissions : manage users and permissions
 - Networking
-- Operating system components
+- Operating system components (top to bottom)
 	- user applications
 	- underlying operating system (android, linux, windows, macos)
 	- kernel: is the component which actually interacts with applications and hardware
@@ -20,7 +20,7 @@
 - one of them is BSD
 - macOS(kernel) is based on BSD(NextStep to be exact), based on means literally the same code
 - linux was built with same design philosophy as unix, but was written from sratch(plan was to make it work on low cost hardware)
-- to keep them compatible, standards were introduced(POSIX)
+- to keep them compatible, standards were introduced => (POSIX)
 - both linux and macOS are POSIX compliant
 
 ### virtualization
@@ -43,11 +43,11 @@
 - "/bin" binaries, basic commands, can be used by normal users directly
 - "sbin" system binaries, advanced commands, needs superuser permissions to run
 - "/lib" essential shared libraries that /bin and /sbin executables use
-- "/Library" in macOs
-- "/usr" user location before "/home" folder was added
+- "/lib" is simlar to "/Library" in macOs
+- "/usr" user location before "/home" folder was added to linux
 - "/usr/bin" and "/usr/sbin" ..etc have more commands than "/bin" "/sbin". This split was made due to storage limitations and to split root binary folders and user binary folders
 - usually commands we run are run from "/usr/bin" and "/usr/sbin"
-- "/usr/local" is place where programs that you install on computer, third party applications.
+- "/usr/local" is place where programs you install on computer reside, third party applications.
 - if you install anything on "/usr/local", they will be available for all users!
 - "/opt", third party application installations stay here. Will be available systemwide
 - if the application that you install is split into multiple components like libs, configs etc then use "*/bin". If the application is just packaged into one then use "/opt"(ex: IDEs, browsers)
@@ -103,4 +103,40 @@
 - `cat /etc/passwd` -> file which has list of users
 - `su - tom` -> to switch to tom user
 - `su -` -> will log you in as root user
-- 
+- `sudo addgroup devops` -> add a new group devops
+- by default when a new user is added a group with same username is created.
+- `sudo /etc/group` -> list all groups
+- `deluser` and `delgroup`
+- above commands are interactive
+- there are alo `useradd` and `groupadd` `userdel` `groupdel` commands which are very similar but are low level and you need to provide information yourself. Use them when writing shell scripts else use the above commands.
+- `sudo usermod -g devops tom` makes devops the primary group of user tom
+- user has one primary group and multiple secondary groups
+- `sudo usermod -aG group1 group2 .. tom` -> appends new groups to user toms previos groups list. use `-G` to override the group list.
+- `groups` to list groups of current user or `groups user` to list groups of specified user.
+- `sudo gpasswd -d nicole devops` -> removes nicole from devops groups
+
+### file ownership and permissions
+- `ls -lsah`
+- `sudo chown username:groupname filename` -> to change permissions of file
+- `drwxrwxr-x` user:group:others(everyone-else)
+- d - directoru
+- - regular file
+- l symbolic link
+- rwx, read write execute and `-` for no permission
+- `chmod -x file` to remove execute permissions
+- `chmod g-w file ` to remove write permission from group
+- `chmod o+x file ` to make executable for others
+- `chmod +x file ` to make executable for all users
+- `chmod g=r-x file ` to give specific access
+- you can also use binary numbers for permissions
+- 4: read, 2: write, 1: execute, 0: no permission
+- example: 777 to give rwx to everyone (similar to rwxrwxrwx)
+
+### piping and redirects in linux cli
+- pass output of one command to another
+- `cat /var/log/syslog | less`
+- less, show things one page at a time and allows to move backward and forward
+- `history | grep sudo | less`
+- grep is a search tool
+- `history | grep "sudo chmod" > temp.txt` redirects outputs to file
+- `history | grep "sudo rm" > temp.txt` redirects outputs and appends to file

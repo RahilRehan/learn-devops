@@ -1,4 +1,4 @@
-### SDLC
+### SDLC (Software development lifecycle)
 - Plan
 - Implement
 - Test
