@@ -26,4 +26,4 @@
 - plan, implement, deploy, feedback, fix, deploy
 - introduction of CI/CD (Continous Integration/Continous Delivery)
 
-![cicd](cicd.jpg)
+![cicd](images/cicd.jpg)
