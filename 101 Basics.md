@@ -15,7 +15,12 @@
 - handle huge traffic/load by making sure underlying infra is good
 
 - as two roles are very different in their job, there is always a communication gap
-- devops is an intermediary introduced between developers and operations team to make the transision from development to operations
+- Developers are change agents. They are incentivised to change the code.
+- Operations are Stability agents. They are incentivised to keep stability. The simplest way to stay stable is to refuse change. 
+- DevOps culture creates synergy between Dev and Ops so they are incentivised to work together
+- Emperical quality through automated testing enables trust that Developers changes can be accpeted by Ops
+- Automated deployment and change control build trust that Ops will accept high quality code changes in a timely mannor
+- devops is people, process and tooling  to enable change ( value ) to happen quickly without sacraficing quality. 
 
 ### agile model
 - plan, implement, deploy, feedback, fix, deploy
