@@ -26,6 +26,7 @@
 	- `ps aux` find port
 	- `nslookup` to find IP of domains
 	- `ping` checks if service is accessible
+	- `netstat -lpnt` to list running applications and their ports
 
 ### SSH
 - secure shell, access machines over internet
