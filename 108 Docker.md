@@ -22,7 +22,7 @@
 	
 	### commands
 	- creating a new network
-		- `docker network create --driver bridge test-network`
+		- `docker network create --driver bridge testnetwork`
 	- connecting container to network	
 		`docker run -it --rm -v $(pwd):/src -w /src --name server --network=testnetwork golang:alpine go run main.go`
 		
@@ -46,8 +46,8 @@
 	- only one cmd per file is allowed
 
 - build images from dockerfiles
-	- docker built -t imagename .
-		- . is context: always optimize this, the while context is copied to docker!! huge memory is required
+	- docker build -t imagename .
+		- . is context: always optimize this, the whole context is copied to docker!! huge memory is required
 			- it is not always possible to have only requrie files in context
 			- so use a .dockerignore file
 - run the created image
