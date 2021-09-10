@@ -68,3 +68,4 @@
 - always try to chain RUN commands just to one, so you can reduce number of layers
 - organize COPY, copy your package managers list(package.json, go.mod etc) first and then the application code
 - do not have deamons(which will autostart containers when they crash) in docker(antipattern) but instead use orchestration mechanism
+- always try to use named volumes and named networks in docker compose file, they are really useful when you want to run multiple containers within same network or use same volumes
