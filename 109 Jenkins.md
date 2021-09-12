@@ -163,6 +163,7 @@ ${env}
 - if you are using lets say a microservice architecture and you have many services.
 - there might be similar jenkin stages or steps in these different microservices.
 - to reduce redundancy, we create a shared library.
+- these shared library functions can be hosted on github as well
 
 ### webhooks and triggers
 - to build automatically whenever there is a change in git state(push or merge ...etc)
@@ -181,4 +182,8 @@ ${env}
 		- include gitconfig as well
 		- set origin url
 	- also ignore build for commits from jenkins, else we will get into endless loop(use plugin, ignore committer strategy -> uses username or email from gitconfig)
+
+### extras
+- for sshig into server, use ssh plugin(ssh agent)
+- use docker compose to deploy
 
