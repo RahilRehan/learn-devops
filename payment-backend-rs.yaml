@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: payment-backend-rs
+  labels:
+    type: payment-backend-rs
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      type: backend
+      service: payment
+      language: go
+  template:
+    metadata:
+      labels:
+        type: backend
+        service: payment
+        language: go
+    spec:
+      containers:
+        - name: payment-backend
+          image: demo_payment-service
+          env:
+            - name: DB_HOST
+              value: payment-db-svc
+            - name: DB_PASSWORD
+              value: 'db@password'
+            - name: CRYPTO_KEY
+              value: '1234567812345678'
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8888
+          livenessProbe: # pod is restarted if liveliness check fails because the pod faced an internal issue
+            httpGet:
+              path: /health
+              port: 8888
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          readinessProbe: # traffic from service won't be routed to this pod, as the service is working but some dependency failed(ex: db)
+            httpGet:
+              path: /health
+              port: 8888
+            initialDelaySeconds: 2
+            periodSeconds: 5
