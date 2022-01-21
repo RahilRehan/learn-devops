@@ -34,3 +34,48 @@ spec:
         - name: postgres-pv-claim
           persistentVolumeClaim:
             claimName: postgres-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-db-svc
+spec:
+  type: ClusterIP
+  selector:
+    type: db
+    vendor: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432 #exposed port from the pod
+      protocol: TCP
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100M
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: '/mnt/data'
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: postgres
+  name: postgres-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100M
