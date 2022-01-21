@@ -21,9 +21,15 @@ spec:
           image: postgres
           env:
             - name: POSTGRES_USER
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-cm
+                  key: pg-user
             - name: POSTGRES_PASSWORD
-              value: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: pg-password
           ports:
             - containerPort: 5432
           volumeMounts:
