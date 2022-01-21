@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-backend-svc
+spec:
+  type: ClusterIP
+  selector:
+    type: backend
+    service: bank
+    language: java
+  ports:
+    - port: 9001
+      targetPort: 9001 #exposed port from the pod
+      protocol: TCP
