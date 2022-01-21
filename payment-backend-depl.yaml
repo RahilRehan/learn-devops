@@ -1,9 +1,9 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: payment-backend-rs
+  name: payment-backend-depl
   labels:
-    type: payment-backend-rs
+    type: payment-backend-depl
 spec:
   replicas: 2
   selector:
@@ -28,6 +28,8 @@ spec:
               value: 'db@password'
             - name: CRYPTO_KEY
               value: '1234567812345678'
+            - name: FRAUD_CLIENT_BASE_URL
+              value: 'http://fraud-backend-svc:9002'
           imagePullPolicy: Never
           ports:
             - containerPort: 8888

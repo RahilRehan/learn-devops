@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-db-depl
+  labels:
+    type: payment-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: db
+      vendor: postgres
+  template:
+    metadata:
+      labels:
+        type: db
+        vendor: postgres
+    spec:
+      containers:
+        - name: postgres-db
+          image: postgres
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          ports:
+            - containerPort: 5432
