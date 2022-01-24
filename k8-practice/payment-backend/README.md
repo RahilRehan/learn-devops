@@ -35,7 +35,7 @@ $ helm install payment-backend payment-backend
 $ `kubectl exec -i postgres-pod -- psql -U postgres -c "create user paymentuser password 'db@password'"`
 $ `kubectl exec -i postgres-pod -- psql -U postgres -c "create database payment_db_go owner=paymentuser"`
 # restart the payment-backend deployment
-$ kubectl rollout restart deployment.apps/payment-backend-depl
+$ kubectl rollout restart deployment.apps/payment-backend-api
 ```
 
 ### 5. Test the deployment

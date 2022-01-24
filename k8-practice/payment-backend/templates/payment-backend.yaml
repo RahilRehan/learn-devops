@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-backend-depl
-  labels:
-    type: payment-backend-depl
+  name: {{.Values.deployment.paymentBackend.name}}
+  # labels:
+  #   type: payment-backend-depl
 spec:
-  replicas: 2
+  replicas: {{.Values.deployment.paymentBackend.replicas}}
   selector:
     matchLabels:
       type: backend
-      service: payment
+      service: {{.Values.deployment.paymentBackend.name}}
       language: go
   template:
     metadata:
       labels:
         type: backend
-        service: payment
+        service: {{.Values.deployment.paymentBackend.name}}
         language: go
     spec:
       containers:
         - name: payment-backend
-          image: demo_payment-service
+          image: {{.Values.deployment.paymentBackend.image}}:{{.Values.deployment.paymentBackend.tag}}
           env:
             - name: DB_HOST
               value: payment-db-svc
@@ -32,17 +32,17 @@ spec:
               value: 'http://fraud-backend-svc:9002'
           imagePullPolicy: Never
           ports:
-            - containerPort: 8888
+            - containerPort: {{.Values.deployment.paymentBackend.port}}
           livenessProbe: # pod is restarted if liveliness check fails because the pod faced an internal issue
             httpGet:
               path: /health
-              port: 8888
+              port: {{.Values.deployment.paymentBackend.port}}
             initialDelaySeconds: 2
             periodSeconds: 5
           readinessProbe: # traffic from service won't be routed to this pod, as the service is working but some dependency failed(ex: db)
             httpGet:
               path: /health
-              port: 8888
+              port: {{.Values.deployment.paymentBackend.port}}
             initialDelaySeconds: 2
             periodSeconds: 5
 
@@ -50,14 +50,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment-backend-svc
+  name: {{.Values.service.paymentBackend.name}}
 spec:
   type: ClusterIP
   selector:
     type: backend
-    service: payment
+    service: {{.Values.deployment.paymentBackend.name}}
     language: go
   ports:
-    - port: 8888
-      targetPort: 8888 #exposed port from the pod
+    - port: {{.Values.service.paymentBackend.port}} #exposed port from the service
+      targetPort: {{.Values.deployment.paymentBackend.port}} #exposed port from the pod
       protocol: TCP

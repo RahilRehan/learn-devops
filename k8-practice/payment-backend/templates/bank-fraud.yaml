@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bank-backend-depl
-  labels:
-    type: bank-backend-depl
+  name: {{.Values.deployment.downstream.bank.name}}
+  # labels:
+  #   type: bank-backend-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
       type: backend
-      service: bank
+      service: {{.Values.deployment.downstream.bank.name}}
       language: java
   template:
     metadata:
       labels:
         type: backend
-        service: bank
+        service: {{.Values.deployment.downstream.bank.name}}
         language: java
     spec:
       containers:
         - name: bank-backend
-          image: public.ecr.aws/h7c9d4d9/demo-bank-service:latest
+          image: {{.Values.deployment.downstream.bank.image}}
           env:
             - name: JAEGER_ENDPOINT
               value: 'http://host.docker.internal:14250'
@@ -34,32 +34,32 @@ spec:
               value: 'db@password'
           # imagePullPolicy: Never
           ports:
-            - containerPort: 9001
+            - containerPort: {{.Values.deployment.downstream.bank.port}}
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fraud-backend-depl
-  labels:
-    type: fraud-backend-depl
+  name: {{.Values.deployment.downstream.fraud.name}}
+  # labels:
+  #   type: fraud-backend-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
       type: backend
-      service: fraud
+      service: {{.Values.deployment.downstream.fraud.name}}
       language: java
   template:
     metadata:
       labels:
         type: backend
-        service: fraud
+        service: {{.Values.deployment.downstream.fraud.name}}
         language: java
     spec:
       containers:
         - name: fraud-backend
-          image: public.ecr.aws/h7c9d4d9/demo-fraud-service:latest
+          image: {{.Values.deployment.downstream.fraud.image}}
           env:
             - name: JAEGER_ENDPOINT
               value: 'http://host.docker.internal:14250'
@@ -67,36 +67,36 @@ spec:
               value: 'true'
           # imagePullPolicy: Never
           ports:
-            - containerPort: 9002
+            - containerPort: {{.Values.deployment.downstream.fraud.port}}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: bank-backend-svc
+  name: {{.Values.service.downstream.bank.name}}
 spec:
   type: ClusterIP
   selector:
     type: backend
-    service: bank
+    service: {{.Values.deployment.downstream.bank.name}}
     language: java
   ports:
-    - port: 9001
-      targetPort: 9001 #exposed port from the pod
+    - port: {{.Values.service.downstream.bank.port}}
+      targetPort: {{.Values.deployment.downstream.bank.port}} #exposed port from the pod
       protocol: TCP
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fraud-backend-svc
+  name: {{.Values.service.downstream.fraud.name}}
 spec:
   type: ClusterIP
   selector:
     type: backend
-    service: fraud
+    service: {{.Values.deployment.downstream.fraud.name}}
     language: java
   ports:
-    - port: 9002
-      targetPort: 9002 #exposed port from the pod
+    - port: {{.Values.service.downstream.fraud.port}}
+      targetPort: {{.Values.deployment.downstream.fraud.port}} #exposed port from the pod
       protocol: TCP

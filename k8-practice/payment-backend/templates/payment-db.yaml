@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-db-depl
-  labels:
-    type: payment-db
+  name: {{.Values.deployment.db.name}}
+  # labels:
+  #   type: payment-db
 spec:
   replicas: 1
   selector:
@@ -31,7 +31,7 @@ spec:
                   name: postgres-secret
                   key: pg-password
           ports:
-            - containerPort: 5432
+            - containerPort: {{.Values.deployment.db.port}}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-pv-claim
@@ -45,15 +45,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment-db-svc
+  name: {{.Values.service.db.name}}
 spec:
   type: ClusterIP
   selector:
     type: db
     vendor: postgres
   ports:
-    - port: 5432
-      targetPort: 5432 #exposed port from the pod
+    - port: {{.Values.service.db.port}}
+      targetPort: {{.Values.deployment.db.port}} #exposed port from the pod
       protocol: TCP
 
 ---
