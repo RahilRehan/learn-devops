@@ -1,0 +1,10 @@
+apiVersion: v2
+name: payment-backend
+description: A Helm chart to run payment-backend on k8s
+
+# this can be an application or library
+type: application
+# version of chart, must update when changes made to chart
+version: 0.1.0
+# version of app, must update when changes made to application
+appVersion: 'latest' # using latest for dev purpose, usually have a particular tag here
