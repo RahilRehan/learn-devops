@@ -1,0 +1,7 @@
+-
+    name: "My first ansible playbook"
+    hosts: do
+    tasks:
+        -
+            name: Ping test
+            ping:

@@ -1,0 +1,8 @@
+- 
+    name: "Executor"
+    hosts: do
+    tasks: 
+        -
+            name: "Run scripts"
+            ansible.builtin.script:
+                cmd: printToTmp.sh      
