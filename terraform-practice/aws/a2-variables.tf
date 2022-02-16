@@ -10,6 +10,12 @@ variable instance_type {
     default = "t3.micro"
 }
 
+variable instance_type_list {
+    description = "EC2 instance type"
+    type = list(string)
+    default = ["t3.micro","t3.small"]
+}
+
 variable instance_keypair {
     description = "AWS instance keypair which will be attached to EC2 instance"
     type = string
